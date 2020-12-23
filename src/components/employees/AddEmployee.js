@@ -39,7 +39,6 @@ class AddEmployee extends React.Component{
             empLocation:this.state.empLocation,
             supervisiorId:this.state.supervisiorId
         }
-        console.log(newEmployee);
         this.props.createEmployee(newEmployee,this.props.history);
 
     }

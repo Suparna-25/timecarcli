@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
-import {getEmployees,createEmployee, getEmployeeById} from '../../actions/EmployeeAction';
-import PropTypes from "prop-types";
+import {updateEmployeeById, getEmployeeById} from '../../actions/EmployeeAction';
 import { connect } from "react-redux";
 import qs from 'query-string';
 
@@ -9,6 +8,7 @@ import qs from 'query-string';
     constructor(props){
         super(props);
         this.state=  {
+            "id" : "",
             "empId": "",
             "empName": "",
             "phoneNumber": "",
@@ -35,6 +35,7 @@ import qs from 'query-string';
      onSubmit=(event)=>{
         event.preventDefault();
         const newEmployee = {
+            id : this.state.id,
             empId: this.getEmployeIdFromUrl(),
             empName:this.state.empName,
             phoneNumber:this.state.phoneNumber,
@@ -43,17 +44,28 @@ import qs from 'query-string';
             supervisiorId:this.state.supervisiorId
         }
 
-      this.props.getEmployeeById(newEmployee);
+      updateEmployeeById(newEmployee);
 
     }
 
     componentDidMount(){
-       const {id} = this.props.match.params;
+    const empId = this.getEmployeIdFromUrl();
+    getEmployeeById(empId)
+    .then(res => {
+    console.log(res.data)
+        this.setState({
+            "id" : res.data.id
+        })
+    })
+    .catch(err => {
+        console.log(err)
+    })
     }
 
     componentWillReceiveProps(nextProps){
         const {
-            empId = 46023443,
+            id,
+            empId,
            empName,
            phoneNumber,
            empEmail,
@@ -145,12 +157,6 @@ import qs from 'query-string';
 
 const mapStateToProps = state => ({
     employee: state.employees.employee
-  });
+});
 
-  const mapDispatchToProps = (dispatch) => {
-    return {
-      getEmployeeById
-    }
-  }
-
-export default connect(mapStateToProps,mapDispatchToProps)(UpdateEmployee);
+export default connect(mapStateToProps)(UpdateEmployee);

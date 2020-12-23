@@ -16,8 +16,6 @@ class EmployeeDashBoard extends React.Component {
   }
   onDeleteClick = (empId) => {
     console.log("--------EmployeeComponent:onDeleteClick Called--------");
-    //this.props.deleteEmployeeById(empId);
-    //console.log(id);
   };
   componentDidMount() {
     this.props.getEmployees();
@@ -61,10 +59,10 @@ class EmployeeDashBoard extends React.Component {
                     <td> {employee.supervisiorId}</td>
 
                     <td>
-                     {/* <Link to = {`/updateEmployee?id=${employee.empId}`} className="btn btn-info u-spacer--sm-hz">
+                     <Link to = {`/updateEmployee?id=${employee.empId}`} className="btn btn-info u-spacer--sm-hz">
                         {" "}
                         Update{" "}
-                </Link> */}
+                </Link> 
                       <Link
                         to={`/viewEmployee?id=${employee.supervisiorId}`}
                         className="btn btn-info"
